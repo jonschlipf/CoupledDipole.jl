@@ -8,12 +8,12 @@ end
 
 function fresnel_coefs_s(n,theta)
 	r=(n[1:end-1].*cos.(theta[1:end-1])-n[2:end].*cos.(theta[2:end]))./(n[1:end-1].*cos.(theta[1:end-1])+n[2:end].*cos.(theta[2:end]))
-	t=r.+1
+	t=2n[1:end-1].*cos.(theta[1:end-1])./(n[1:end-1].*cos.(theta[1:end-1])+n[2:end].*cos.(theta[2:end]))
 	return r,t
 end
 function fresnel_coefs_p(n,theta)
-	r=(n[1:end-1].*cos.(theta[2:end])-n[2:end].*cos.(theta[1:end-1]))./(n[1:end-1].*cos.(theta[2:end])+n[2:end].*cos.(theta[1:end-1]))
-	t=r.+1
+	r=(n[2:end].*cos.(theta[1:end-1])-n[1:end-1].*cos.(theta[2:end]))./(n[1:end-1].*cos.(theta[2:end])+n[2:end].*cos.(theta[1:end-1]))
+	t=2n[1:end-1].*cos.(theta[1:end-1])./(n[1:end-1].*cos.(theta[2:end])+n[2:end].*cos.(theta[1:end-1]))
 	return r,t
 end
 function fresnel_phase(n,theta,h,k)

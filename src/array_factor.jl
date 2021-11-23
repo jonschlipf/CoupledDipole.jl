@@ -1,5 +1,5 @@
 #no oblique working yet
-function Ssquare_s(nshells,pitch,k,θ=0,ε0=ε0) #only vertical incidence for now
+function Ssquare_s2(nshells,pitch,k,θ=0,ε0=ε0) #only vertical incidence for now
 S=0im*k # initialize complex array
 kin=k*sin(θ)
 for i=1:nshells
@@ -21,7 +21,7 @@ for i=1:nshells
 end
 return S/(4π*ε0)
 end
-function Ssquare_p(nshells,pitch,k,θ=0,ε0=ε0) #only vertical incidence for now
+function Ssquare_p2(nshells,pitch,k,θ=0,ε0=ε0) #only vertical incidence for now
 S=0im*k # initialize complex array
 kin=k*sin(θ)
 for i=1:nshells
@@ -42,4 +42,42 @@ for i=1:nshells
     end
 end
 return S/(4π*ε0)
+end
+function Ssquare_s(nshells,pitch,k,θ=0,ε0=ε0)
+	S=0im*k
+	function Spart(i,j)
+		r=pitch*sqrt(i^2+j^2)
+		α=atan(j,i)
+		kpar=k*sin(θ)
+		S1=exp.(1im*k*r+1im*i*pitch*kpar).*(3*cos(α)^2-1).*(1 .-1im*k*r)*r^-3
+        S2=exp.(1im*k*r+1im*i*pitch*kpar).*(sin(α)^2).*k.^2*r^-1
+		return S1+S2
+	end
+	    for i=-nshells:nshells
+        for j=-nshells:nshells
+            if (i != 0)||(j!=0)
+                S=S+Spart(i,j)
+            end
+        end
+    end
+    return S/(4π*ε0)
+end
+function Ssquare_p(nshells,pitch,k,θ=0,ε0=ε0)
+	S=0im*k
+	function Spart(i,j)
+		r=pitch*sqrt(i^2+j^2)
+		α=atan(j,i)
+		kpar=k*sin(θ)
+		S1=exp.(1im*k*r+1im*j*pitch*kpar).*(3*cos(α)^2-1).*(1 .-1im*k*r)*r^-3
+        S2=exp.(1im*k*r+1im*j*pitch*kpar).*(sin(α)^2).*k.^2*r^-1
+		return S1+S2
+	end
+	    for i=-nshells:nshells
+        for j=-nshells:nshells
+            if (i != 0)||(j!=0)
+                S=S+Spart(i,j)
+            end
+        end
+    end
+    return S/(4π*ε0)
 end
