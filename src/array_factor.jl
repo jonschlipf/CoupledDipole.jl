@@ -1,4 +1,4 @@
-#no oblique working yet
+#legacy method, no oblique working yet
 function Ssquare_s2(nshells,pitch,k,θ=0,ε0=ε0) #only vertical incidence for now
 S=0im*k # initialize complex array
 kin=k*sin(θ)
@@ -43,6 +43,8 @@ for i=1:nshells
 end
 return S/(4π*ε0)
 end
+#current method (slower, but works for oblique)
+#see p version for comments
 function Ssquare_s(nshells,pitch,k,θ=0,ε0=ε0)
 	S=0im*k
 	function Spart(i,j)
@@ -63,21 +65,22 @@ function Ssquare_s(nshells,pitch,k,θ=0,ε0=ε0)
     return S/(4π*ε0)
 end
 function Ssquare_p(nshells,pitch,k,θ=0,ε0=ε0)
+	#preallocate
 	S=0im*k
-	function Spart(i,j)
-		r=pitch*sqrt(i^2+j^2)
-		α=atan(j,i)
-		kpar=k*sin(θ)
-		S1=exp.(1im*k*r+1im*j*pitch*kpar).*(3*cos(α)^2-1).*(1 .-1im*k*r)*r^-3
-        S2=exp.(1im*k*r+1im*j*pitch*kpar).*(sin(α)^2).*k.^2*r^-1
+	function Spart(i,j) #call for each element
+		r=pitch*sqrt(i^2+j^2) #dipole distance
+		α=atan(j,i) #angle
+		kpar=k*sin(θ) #parallel component of k vector
+		S1=exp.(1im*k*r+1im*j*pitch*kpar).*(3*cos(α)^2-1).*(1 .-1im*k*r)*r^-3 #first part
+        S2=exp.(1im*k*r+1im*j*pitch*kpar).*(sin(α)^2).*k.^2*r^-1 #second part
 		return S1+S2
 	end
-	    for i=-nshells:nshells
-        for j=-nshells:nshells
-            if (i != 0)||(j!=0)
-                S=S+Spart(i,j)
+	    for i=-nshells:nshells #iterate over rows
+        for j=-nshells:nshells #iterate over columns
+            if (i != 0)||(j!=0) #exclude the element itself
+                S=S+Spart(i,j) 
             end
         end
     end
-    return S/(4π*ε0)
+    return S/(4π*ε0) #unit system conversion
 end
