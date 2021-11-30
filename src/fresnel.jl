@@ -21,7 +21,7 @@ function fresnel_coefs_p(n,theta)
 	r=(n[1:end-1].*cos.(theta[2:end])-n[2:end].*cos.(theta[1:end-1]))./denom
 	rb=(n[2:end].*cos.(theta[1:end-1])-n[1:end-1].*cos.(theta[2:end]))./denom
 	t=2n[1:end-1].*cos.(theta[1:end-1])./denom
-	t2=2n[2:end].*cos.(theta[2:end])./denom
+	tb=2n[2:end].*cos.(theta[2:end])./denom
 	return r,t,rb,tb
 end
 #phase shift when passing through interface
