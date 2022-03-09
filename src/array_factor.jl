@@ -1,3 +1,4 @@
+using ProgressMeter
 #legacy method, no oblique working yet
 function Ssquare_s2(nshells,pitch,k,θ=0,ε0=ε0) #only vertical incidence for now
 S=0im*k # initialize complex array
@@ -55,7 +56,7 @@ function Ssquare_s(nshells,pitch,k,θ=0,ε0=ε0)
         S2=exp.(1im*k*r+1im*i*pitch*kpar).*(sin(α)^2).*k.^2*r^-1
 		return S1+S2
 	end
-	    for i=-nshells:nshells
+	    @showprogress for i=-nshells:nshells
         for j=-nshells:nshells
             if (i != 0)||(j!=0)
                 S=S+Spart(i,j)
@@ -75,7 +76,7 @@ function Ssquare_p(nshells,pitch,k,θ=0,ε0=ε0)
         S2=exp.(1im*k*r+1im*j*pitch*kpar).*(sin(α)^2).*k.^2*r^-1 #second part
 		return S1+S2
 	end
-	    for i=-nshells:nshells #iterate over rows
+	    @showprogress for i=-nshells:nshells #iterate over rows
         for j=-nshells:nshells #iterate over columns
             if (i != 0)||(j!=0) #exclude the element itself
                 S=S+Spart(i,j) 
