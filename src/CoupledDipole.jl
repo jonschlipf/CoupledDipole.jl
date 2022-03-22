@@ -14,6 +14,7 @@ function α_to_array(α,S)
 end
 #modified fresnel coefficients for dipoles on interface
 function modified_r_s(α,pitch,n1,n2,θ1,k,ε0=ε0)
+    θ1=θ1+0im
 	rho=pitch.^-2 #dipole area density
 	θ2=real.(asin.(n1./n2.*sin.(θ1)))-1im*abs.(imag.(asin.(n1./n2*sin.(θ1)))) #Snell
 	denom=n1.*cos.(θ1).+n2.*cos.(θ2).-1im*k.*α.*rho/ε0 #denominator
@@ -25,6 +26,7 @@ function modified_r_s(α,pitch,n1,n2,θ1,k,ε0=ε0)
 end
 #same for p polarization
 function modified_r_p(α,pitch,n1,n2,θ1,k,ε0=ε0)
+    θ1=θ1+0im
 	rho=pitch.^-2
 	θ2=real.(asin.(n1./n2.*sin.(θ1)))-1im*abs.(imag.(asin.(n1./n2*sin.(θ1))))
 	denom=n1.*cos.(θ2).+n2.*cos.(θ1).-1im*k.*α.*rho/ε0.*cos.(θ2).*cos.(θ1)

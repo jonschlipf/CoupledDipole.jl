@@ -665,7 +665,9 @@ version = "1.3.0"
 
 [[RigorousCoupledWaveAnalysis]]
 deps = ["CSV", "DataFrames", "FFTW", "Interpolations", "LinearAlgebra", "SpecialFunctions"]
-git-tree-sha1 = "d306efb789ae5c3bf6e5836d2d56677e318869c8"
+git-tree-sha1 = "825c769d2f03c2a3b591f88c8d45716323aadf88"
+repo-rev = "master"
+repo-url = "/home/jon/Nextcloud/JS/projects/tools/RigorousCoupledWaveAnalysis.jl"
 uuid = "c8f76c1c-e1da-11e9-2f58-db462fa08db6"
 version = "1.0.1"
 
