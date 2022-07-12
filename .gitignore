@@ -1,2 +1,5 @@
-test
+old_test
+*.log
+*.txt
 *.png
+*.fsp
